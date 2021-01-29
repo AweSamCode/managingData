@@ -1,0 +1,53 @@
+<div id="container">
+  <!-- populated by JS-->
+</div>
+<script src="./boston.js"></script>
+<script>
+  function renderBoston(boston, container) {
+    var person = boston.data;
+    var len = boston.data.length;
+    var html = '';
+    /*for (let i = 0; i < len; i++) {
+      html += '<li class="post">' +
+        '<h2>' + person[i][8] + '</h2>' +
+        '<h3>' + person[i][11] + '</h3>'
+    }*/
+    let bigSalaries = [];
+    let topSalaries = [];
+    for (let i = 0; i < len; i++) { 
+      if (person[i][11] > 100000){ //Salaries over 100
+        bigSalaries.push({name: person[i][8], salary: person[i][11]});
+      }
+      topSalaries.push({name: person[i][8], salary: person[i][11]}); //Adds all salaries into a new array called topSalaries
+    }
+
+    console.log(bigSalaries);
+    bigSalaries.sort((a,b) => a.salary-b.salary).reverse();
+    
+    topSalaries = topSalaries.sort((a,b) => a.salary-b.salary); //https://medium.com/coding-at-dawn/how-to-sort-an-array-numerically-in-javascript-2b22710e3958#:~:text=Use%20.&text=In%20order%20to%20sort%20a,difference%20between%20the%20two%20numbers.
+    //sorts the newly made array numerically.       Alternatively, I was going to sort the bigSalaries array the normal way.  That also would have worked because all the numerical values would have the same length strings, so they would be 'alphabetised'.  But we were told first to do the top fives salaries, so I'm making something to do that without using what I did for the bigSalaries array.
+    topSalaries = topSalaries.reverse();
+    topSalaries = topSalaries.splice(0, 5);
+    console.log(topSalaries);
+
+    html += 
+    '<h1>' + 'Top 5 Salaries' + '</h1>'
+    for (let i = 0; i < topSalaries.length; i++) {
+      html += '<li class="post">' +
+        '<h2>' + `${topSalaries[i].name}`+ '</h2>' +
+        '<h3>' + `They made ${topSalaries[i].salary}` + '</h3>'
+    }
+
+      html += 
+        '<h1>' + `The amount of salaries that make over 100000 are ${bigSalaries.length}` + '</h1>' +
+        '<h2>' + `The following are:` + '</h2>'
+    for (let i = 0; i < bigSalaries.length; i++) {
+      html += '<li class="post">' +
+        '<h2>' + bigSalaries[i].name + '</h2>' +
+        '<h3>' + `They made ${bigSalaries[i].salary}` + '</h3>'
+    }
+      container.innerHTML = '<ul id = "boston">' + html + '</ul>';
+  }
+  renderBoston(boston, document.getElementById('container'));
+  
+</script>
